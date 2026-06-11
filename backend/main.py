@@ -47,19 +47,26 @@ async def query_data(request: dict):
     question = request.get("question")
     table_name = request.get("table_name")
     columns = request.get("columns")
+    history = request.get("history", [])
 
-    prompt = f"""You are a SQL expert. Given this table:
+    prompt = f"""You are a SQL expert helping analyze data. You have access to conversation history.
+
+Table info:
 - Table name: {table_name}
 - Columns: {columns}
+
+Use the conversation history to understand context like "they", "those", "it" etc.
 
 Convert this question to a SQLite SQL query: "{question}"
 
 Reply with ONLY the SQL query, nothing else."""
 
+    messages = history + [{"role": "user", "content": prompt}]
+
     message = client.messages.create(
         model="claude-sonnet-4-5",
         max_tokens=500,
-        messages=[{"role": "user", "content": prompt}]
+        messages=messages
     )
 
     sql = message.content[0].text.strip()
