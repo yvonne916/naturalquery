@@ -1,4 +1,6 @@
-id,name,age
-1,Alice,25
-2,Bob,30
-3,Carol,28
+id,name,age,country
+1,Alice,25,USA
+2,Bob,30,Canada
+3,Carol,28,USA
+4,David,35,UK
+5,Eve,27,Canada
