@@ -6,6 +6,8 @@ import PreviewTable from "./components/PreviewTable";
 import ChatMessage from "./components/ChatMessage";
 import QueryInput from "./components/QueryInput";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
   const [tableInfos, setTableInfos] = useState<{[key: string]: any}>({});
@@ -39,7 +41,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/upload", {
+      const res = await fetch(API_URL + "/upload", {
         method: "POST",
         body: formData,
       });
@@ -83,7 +85,7 @@ export default function Home() {
   const handleQuery = async () => {
     if (!question || !selectedDataset) return;
     setLoading(true);
-    const res = await fetch("http://localhost:8000/query", {
+    const res = await fetch(API_URL + "/query", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
